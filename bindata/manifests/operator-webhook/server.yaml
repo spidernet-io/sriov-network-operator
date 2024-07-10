@@ -62,6 +62,7 @@ spec:
       containers:
       - name: webhook-server
         image: {{.SriovNetworkWebhookImage}}
+        imagePullPolicy: IfNotPresent
         command:
         - webhook
         args:
