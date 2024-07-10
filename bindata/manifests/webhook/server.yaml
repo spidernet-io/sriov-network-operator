@@ -65,6 +65,7 @@ spec:
       containers:
       - name: webhook-server
         image: {{.NetworkResourcesInjectorImage}}
+        imagePullPolicy: IfNotPresent
         command:
         - webhook
         args:
@@ -87,6 +88,9 @@ spec:
           requests:
             cpu: 10m
             memory: 50Mi
+          limits:
+            cpu: 300m
+            memory: 500Mi
         volumeMounts:
         - mountPath: /etc/tls
           name: tls

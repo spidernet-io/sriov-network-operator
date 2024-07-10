@@ -1,0 +1,23 @@
+apiVersion: sriovnetwork.openshift.io/v1
+kind: SriovNetworkPoolConfig
+metadata:
+  name: pool-control
+  namespace: sriov
+spec:
+  maxUnavailable: "1"
+  nodeSelector:
+    matchExpressions:
+      - key: node-role.kubernetes.io/control-plane
+        operator: "Exists"
+---
+apiVersion: sriovnetwork.openshift.io/v1
+kind: SriovNetworkPoolConfig
+metadata:
+  name: pool-worker
+  namespace: sriov
+spec:
+  maxUnavailable: "50%"
+  nodeSelector:
+    matchExpressions:
+      - key: node-role.kubernetes.io/control-plane
+        operator: "NotExists"

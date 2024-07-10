@@ -39,9 +39,12 @@ spec:
       - name: {{ . }}
       {{- end }}
       {{- end }}
+      {{- if or .SRIOVCNIImage .SRIOVInfiniBandCNIImage .OVSCNIImage .UsedSystemdMode }}
       initContainers:
+        {{- if .SRIOVCNIImage }}
         - name: sriov-cni
           image: {{.SRIOVCNIImage}}
+          imagePullPolicy: IfNotPresent
           args: ["--no-sleep"]
           securityContext:
             privileged: true
@@ -49,14 +52,20 @@ spec:
             requests:
               cpu: 10m
               memory: 10Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
           volumeMounts:
             - name: cnibin
               mountPath: /host/opt/cni/bin
             - name: os-release
               mountPath: /host/etc/os-release
               readOnly: true
+        {{- end }}
+        {{- if .SRIOVInfiniBandCNIImage }}
         - name: sriov-infiniband-cni
           image: {{.SRIOVInfiniBandCNIImage}}
+          imagePullPolicy: IfNotPresent
           args: ["--no-sleep"]
           securityContext:
             privileged: true
@@ -64,15 +73,20 @@ spec:
             requests:
               cpu: 10m
               memory: 10Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
           volumeMounts:
             - name: cnibin
               mountPath: /host/opt/cni/bin
             - name: os-release
               mountPath: /host/etc/os-release
               readOnly: true
+        {{- end }}
         {{- if .OVSCNIImage }}
         - name: ovs-cni
           image: {{.OVSCNIImage}}
+          imagePullPolicy: IfNotPresent
           command: ["/bin/sh","-c"]
           args:
             - >
@@ -85,6 +99,9 @@ spec:
             requests:
               cpu: 10m
               memory: 10Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
           volumeMounts:
             - name: cnibin
               mountPath: /host/opt/cni/bin
@@ -92,9 +109,10 @@ spec:
               mountPath: /host/etc/os-release
               readOnly: true
         {{- end }}
-      {{- if .UsedSystemdMode}}
+      {{- if .UsedSystemdMode }}
         - name: sriov-service-copy
           image: {{.Image}}
+          imagePullPolicy: IfNotPresent
           command:
             - /bin/bash
             - -c
@@ -105,13 +123,18 @@ spec:
             requests:
               cpu: 10m
               memory: 10Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
           volumeMounts:
             - name: host
               mountPath: /host
       {{- end }}
+      {{- end }}
       containers:
       - name: sriov-network-config-daemon
         image: {{.Image}}
+        imagePullPolicy: IfNotPresent
         command:
           - sriov-network-config-daemon
         securityContext:
@@ -144,6 +167,9 @@ spec:
           requests:
             cpu: 100m
             memory: 100Mi
+          limits:
+            cpu: 500m
+            memory: 500Mi
         volumeMounts:
           - name: host
             mountPath: /host
