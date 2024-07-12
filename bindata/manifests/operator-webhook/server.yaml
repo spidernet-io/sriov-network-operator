@@ -86,6 +86,9 @@ spec:
           requests:
             cpu: 10m
             memory: 50Mi
+          limits:
+            cpu: 500m
+            memory: 500Mi
         volumeMounts:
         - mountPath: /etc/tls
           name: tls

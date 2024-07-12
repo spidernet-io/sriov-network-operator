@@ -52,6 +52,9 @@ spec:
             requests:
               cpu: 10m
               memory: 10Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
           volumeMounts:
             - name: cnibin
               mountPath: /host/opt/cni/bin
@@ -70,6 +73,9 @@ spec:
             requests:
               cpu: 10m
               memory: 10Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
           volumeMounts:
             - name: cnibin
               mountPath: /host/opt/cni/bin
@@ -93,6 +99,9 @@ spec:
             requests:
               cpu: 10m
               memory: 10Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
           volumeMounts:
             - name: cnibin
               mountPath: /host/opt/cni/bin
@@ -114,6 +123,9 @@ spec:
             requests:
               cpu: 10m
               memory: 10Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
           volumeMounts:
             - name: host
               mountPath: /host
@@ -155,6 +167,9 @@ spec:
           requests:
             cpu: 100m
             memory: 100Mi
+            limits:
+              cpu: 500m
+              memory: 500Mi
         volumeMounts:
           - name: host
             mountPath: /host
