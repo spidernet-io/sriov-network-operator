@@ -11,6 +11,6 @@ metadata:
 spec:
   ports:
   - port: 443
-    targetPort: 6443
+    targetPort: 5732
   selector:
     app: operator-webhook

@@ -23,6 +23,7 @@ spec:
       labels:
         app: operator-webhook
     spec:
+      hostNetwork: true
       securityContext:
         runAsNonRoot: true
       serviceAccountName: operator-webhook-sa
@@ -67,7 +68,7 @@ spec:
         - webhook
         args:
         - "start"
-        - "--port=6443"
+        - "--port=5732"
         - "--tls-private-key-file=/etc/tls/tls.key"
         - "--tls-cert-file=/etc/tls/tls.crt"
         - "--alsologtostderr=true"
